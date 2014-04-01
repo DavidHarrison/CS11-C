@@ -1,0 +1,152 @@
+#include "triangle_routines.c"
+#include <stdio.h>
+
+#define NUM_HOLES   15
+#define NUM_MOVES   36
+/* move format */
+#define MOVE_LENGTH     3
+#define START           0
+#define JUMPED          1
+#define END             2
+
+/* prototypes */
+*int[] getAllMoves(int triangle_layers);
+**int[] getTwoDArray(int x_length, int y_length);
+void memoryFail(void);
+void initArray(int x_length, int y_length, int **two_d_array[]);
+void buildTriangle(int triangle_layers, int **two_d_array[]);
+int triangularNum(int triangl_layers);
+void addMoves(int *new_moves[], int *total_moves[]);
+*int[] getHoleMoves(int x, int y, int **two_d_board[]);
+
+/*
+ * getAllMoves: return an array of all the possible moves
+ *              that can be taken on a board of the given number of layers
+ * arguments: triangle_layers: the number of layers in the board
+ * return value: an array of all of the possible moves
+ *               that can be taken on the board
+ */
+*int[] getAllMoves(int triangle_layers)
+{
+    /* loop indices */
+    int i;
+    int j;
+    /* an array of all possible moves */
+    int *all_moves[];
+    /* two dimensional array spatially representing the board */
+    int *two_d_board[];
+    two_d_board = getTwoDArray(triangle_layers, triangle_layers);
+    initArray(two_d_board);
+    /* assumes that enough space has been allocated */
+    buildTriangle(two_d_board);
+    for (i = 0; i < triangle_layers; i++)
+    {
+        for (j = 0; j < triangle_layers; j++)
+        {
+            if (two_d_board[i][j] != NULL)
+            {
+                addMoves(getHoleMoves(i, j, two_d_board), all_moves);
+            }
+        }
+    }
+    return all_moves;
+}
+
+/*
+ * getTwoDArray: get a two dimensional array of int pointers (uninitialized)
+ *               of the given dimensions
+ * arguments: x_length: the maximum number of values in the top level array
+ *            y_length: the maximum number of values in the
+ *                      bottom level array
+ * return value: a two dimensional array of int pointers (unitialized)
+ *               of the given dimensions
+ */
+*int[] getTwoDArray(int x_length, int y_length)
+{
+    /* two dimensional array spatially representing the board */
+    int *two_d_array[];
+    /* loop index */
+    int i;
+    /* allocate memory for the first dimension of the board */
+    two_d_array = malloc(sizeof(int *) * y_length * x_length);
+    if (two_d_array != NULL)
+    {
+        for (i = 0; i < x_length; i++)
+        {
+            two_d_array[i] = malloc(sizeof(int *) * y_length);
+            /*
+             * if the memory cannot be reserved,
+             * exit with an error message explaining this
+             */
+            if (two_d_array[i] == NULL) memoryFail();
+        }
+    }
+    /*
+     * if the memory cannot be reserved,
+     * exit with an error message explaining this
+     */
+    else memoryFail();
+}
+
+/*
+ * memoryFail: print an error message stating that
+ *             the system failed to allocate memory and unsuccessfully exit
+ * arguments: none
+ * return value: none
+ */
+void memoryFail(void)
+{
+    fprintf(stderr, "failed to allocate memory");
+    exit(EXIT_FAILURE);
+}
+
+/*
+ * initArray: initialize all of the pointers
+ *            in the given two dimensional array to NULL
+ * arguments: x_length: the length of the first dimension of the array
+ *            y_length: the length of the second dimension of the array
+ *            two_d_array: an array of pointers
+ * return value: none (operates on the reference to the array)
+ */
+void initArray(int x_length, int y_length, int **two_d_array[])
+{
+    /* loop indices */
+    int x;
+    int y;
+    for (x = 0; x < x_length; x++)
+    {
+        for (y = 0; y < y_length; y++)
+        {
+            two_d_array[x][y] = NULL;
+        }
+    }
+}
+
+/*
+ * buildTriangle: build a triangle of pointers
+ *                with the given number of layers
+ *                and each value, starting from the point,
+ *                being one greater
+ * arguments: triangle_layers: the number of layers for the triangle
+ *            two_d_array: a two dimensional array of pointers
+ *                         to set the values of
+ * return value: none (operates on the reference to the array)
+ * CAUTION: the two_d_array is assumed to be
+ *          at least triangle_layers by triangle_layers
+ */
+void buildTriangle(int triangle_layers, int **two_d_array[])
+{
+    row = 0
+    for (i = 0; i < triangularNum(triangle_layers); i++)
+    {
+        starting_point = triangle_layers - row
+        /*
+         * if i is the triangular number for the row,
+         * and thus the last value on the row, step to the next row
+         */
+        if (triangularNum(row) == i)
+        {
+            row++
+        }
+    }
+}

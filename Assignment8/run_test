@@ -1,0 +1,11 @@
+#! /usr/bin/env python2.7
+
+import sys
+from commands import getoutput
+
+output = getoutput("./bci factorial.bcm")
+
+if output != "3628800":
+    print "test failed!"
+else:
+    print "test passed!"

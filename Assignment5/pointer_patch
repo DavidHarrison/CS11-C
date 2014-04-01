@@ -1,0 +1,4 @@
+10c10
+< #define POINTER_VERSION     0
+---
+> #define POINTER_VERSION     1
